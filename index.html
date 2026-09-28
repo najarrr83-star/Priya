@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #5c247d, #210b35 70%);
+    color: white;
+    font-family: "Cormorant Garamond", serif;
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -30px;
+    color: #ff77c8;
+    font-size: 20px;
+    animation: float 7s linear infinite;
+    opacity: .7;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    15% { opacity: .8; }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Progress */
+.progress {
+    width: 80%;
+    max-width: 650px;
+    margin: 35px auto 0;
+    height: 7px;
+    background: rgba(255,255,255,.15);
+    border-radius: 20px;
+}
+
+.progress-bar {
+    width: 20%;
+    height: 100%;
+    background: linear-gradient(90deg,#ff76c8,#ffb6e5);
+    border-radius: 20px;
+    transition: .5s;
+}
+
+/* Card */
+.card {
+    width: 90%;
+    max-width: 650px;
+    min-height: 380px;
+    margin: 80px auto;
+    padding: 45px 35px;
+    border: 1px solid rgba(255,180,230,.5);
+    border-radius: 25px;
+    background: rgba(255,255,255,.07);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 45px rgba(255,70,190,.18);
+    text-align: center;
+    animation: appear .8s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: scale(.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.emoji {
+    font-size: 55px;
+}
+
+h1 {
+    font-size: 42px;
+    margin: 15px 0;
+    font-style: italic;
+}
+
+p {
+    font-size: 23px;
+    line-height: 1.4;
+}
+
+button {
+    border: none;
+    padding: 15px 35px;
+    margin-top: 20px;
+    border-radius: 40px;
+    background: linear-gradient(90deg,#ff9bd8,#ffd0ec);
+    color: #6b1764;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(255,120,210,.35);
+    transition: .25s;
+}
+
+button:hover {
+    transform: scale(1.08);
+}
+
+.final h1 {
+    font-family: "Great Vibes", cursive;
+    font-size: 70px;
+    color: #ffd2ed;
+}
+
+.final p {
+    font-size: 24px;
+}
+
+.name {
+    color: #ff9cda;
+}
+</style>
+</head>
+
+<body>
+
+<div class="progress">
+    <div class="progress-bar" id="bar"></div>
+</div>
+
+<div class="card" id="card"></div>
+
+<script>
+
+const questions = [
+    {
+        emoji: "💗",
+        text: "Are you ready for a little birthday surprise?",
+        button: "I'm ready 😍"
+    },
+    {
+        emoji: "🥺",
+        text: "Will you stay with me and make beautiful memories?",
+        button: "Always ❤️"
+    },
+    {
+        emoji: "😊",
+        text: "Will you keep smiling and make every day brighter?",
+        button: "Yes, always 🥰"
+    },
+    {
+        emoji: "💞",
+        text: "Can I make your birthday a little more special?",
+        button: "Of course 💕"
+    },
+    {
+        emoji: "🎂",
+        text: "Are you ready for your birthday wish?",
+        button: "Show me 🎁"
+    }
+];
+
+let current = 0;
+
+function showQuestion() {
+
+    const q = questions[current];
+
+    document.getElementById("card").innerHTML = `
+        <div class="emoji">${q.emoji}</div>
+        <h1>${q.text}</h1>
+        <button onclick="nextQuestion()">${q.button}</button>
+    `;
+
+    document.getElementById("bar").style.width =
+        ((current + 1) / questions.length * 100) + "%";
+}
+
+function nextQuestion() {
+
+    current++;
+
+    if (current >= questions.length) {
+        showBirthday();
+        return;
+    }
+
+    showQuestion();
+}
+
+function showBirthday() {
+
+    document.getElementById("bar").style.width = "100%";
+
+    document.getElementById("card").className = "card final";
+
+    document.getElementById("card").innerHTML = `
+        <div class="emoji">🎂💖✨</div>
+
+        <h1>Happy Birthday<br>
+        <span class="name">My Special One</span> ❤️</h1>
+
+        <p>
+        Today is all about you. 🌸<br><br>
+
+        May your life always be filled with
+        happiness, love, laughter and beautiful
+        moments. ✨
+        <br><br>
+
+        Keep smiling because your smile makes
+        everything more beautiful. 💕
+        </p>
+
+        <button onclick="celebrate()">One More Surprise 🎁</button>
+    `;
+}
+
+function celebrate() {
+
+    for(let i = 0; i < 35; i++) {
+
+        let heart = document.createElement("div");
+
+        heart.className = "heart";
+        heart.innerHTML =
+            ["❤️","💖","💕","💗","✨","🌸"][Math.floor(Math.random()*6)];
+
+        heart.style.left = Math.random()*100 + "%";
+        heart.style.fontSize = (15 + Math.random()*25) + "px";
+        heart.style.animationDuration = (3 + Math.random()*5) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 8000);
+    }
+
+    alert("🎂 Happy Birthday! ❤️");
+}
+
+/* Continuous hearts */
+
+setInterval(() => {
+
+    let heart = document.createElement("div");
+
+    heart.className = "heart";
+    heart.innerHTML =
+        ["❤️","💗","💕","💖","✨"][Math.floor(Math.random()*5)];
+
+    heart.style.left = Math.random()*100 + "%";
+    heart.style.fontSize = (15 + Math.random()*20) + "px";
+    heart.style.animationDuration = (5 + Math.random()*5) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 10000);
+
+}, 600);
+
+showQuestion();
+
+</script>
+
+</body>
+</html>
